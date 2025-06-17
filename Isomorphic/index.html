@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <style>
+        html, body {
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            touch-action: none;
+            background: #111;
+        }
+        svg {
+            width: 100vw;
+            height: 100vh;
+            display: block;
+        }
+        rect.pad {
+            fill: #333;
+            stroke: #666;
+            stroke-width: 2;
+            rx: 10;
+        }
+        rect.pad.active {
+            fill: #0cf;
+        }
+    </style>
+</head>
+<body>
+    <svg id="keyboard"></svg>
+    <script>
+        const svg = document.getElementById('keyboard');
+        const cols = 3;
+        const rows = 5;
+        let pads = [];
+        let activeTouches = {}; // { touchId: {pad, startX, startY} }
+
+        function createGrid() {
+            const width = window.innerWidth;
+            const height = window.innerHeight;
+            svg.innerHTML = '';
+            pads = [];
+
+            const padW = width / cols;
+            const padH = height / rows;
+
+            for (let y = 0; y < rows; y++) {
+                for (let x = 0; x < cols; x++) {
+                    const note = 36 + x + y * 5;
+                    const offsetX = (y % 2) * padW / 2;
+                    const px = x * padW;
+                    const py = y * padH;
+
+                    const rect = document.createElementNS("http://www.w3.org/2000/svg", "rect");
+                    rect.setAttribute("x", px);
+                    rect.setAttribute("y", py);
+                    rect.setAttribute("width", padW - 4);
+                    rect.setAttribute("height", padH - 4);
+                    rect.setAttribute("class", "pad");
+                    rect.dataset.note = note;
+
+                    svg.appendChild(rect);
+                    pads.push({ rect, x, y, px, py, w: padW, h: padH, note });
+                }
+            }
+        }
+
+        function findPadAt(x, y) {
+            return pads.find(p =>
+                x >= p.px && x <= p.px + p.w - 4 &&
+                y >= p.py && y <= p.py + p.h - 4
+            );
+        }
+
+        function handlePointerStart(evt) {
+            const pad = findPadAt(evt.clientX, evt.clientY);
+            if (pad) {
+                pad.rect.classList.add("active");
+                activeTouches[evt.pointerId] = {
+                    pad,
+                    startX: evt.clientX,
+                    startY: evt.clientY
+                };
+                console.log(`Start note ${pad.note}`);
+            }
+        }
+
+        function handlePointerMove(evt) {
+            const data = activeTouches[evt.pointerId];
+            if (data) {
+                const dx = (evt.clientX - data.startX) / data.pad.w;
+                const dy = (evt.clientY - data.startY) / data.pad.h;
+                console.log(`Deviation on note ${data.pad.note}: dx=${dx.toFixed(2)}, dy=${dy.toFixed(2)}`);
+            }
+        }
+
+        function handlePointerEnd(evt) {
+            const data = activeTouches[evt.pointerId];
+            if (data) {
+                data.pad.rect.classList.remove("active");
+                console.log(`Release note ${data.pad.note}`);
+                delete activeTouches[evt.pointerId];
+            }
+        }
+
+        svg.addEventListener("pointerdown", handlePointerStart);
+        svg.addEventListener("pointermove", handlePointerMove);
+        svg.addEventListener("pointerup", handlePointerEnd);
+        svg.addEventListener("pointercancel", handlePointerEnd);
+        // svg.addEventListener("touchstart", handleTouchStart);
+        // svg.addEventListener("touchmove", handleTouchMove);
+        // svg.addEventListener("touchend", handleTouchEnd);
+        // svg.addEventListener("touchcancel", handleTouchEnd);
+
+        window.addEventListener("resize", createGrid);
+        createGrid();
+    </script>
+</body>
+</html>
