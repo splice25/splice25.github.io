@@ -33,7 +33,7 @@ const setup = async () => {
     // Add an event listener for when the button is pressed down
     button.addEventListener('pointerdown', async () => {
         // Resume the AudioContext if it's not already running (required by browsers)
-        if (context.state !== 'running') {
+        if (context.state === 'suspended') {
             await context.resume();
         }
 
