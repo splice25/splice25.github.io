@@ -1,0 +1,83 @@
+/* Fullscreen layout with centered controls */
+html, body {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    width: 100%;
+    overflow: hidden;
+    background-color: #111;
+    font-family: sans-serif;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    touch-action: none;
+}
+
+/* Bigger toggle switch */
+#onOff {
+    appearance: none;
+    width: 120px;
+    height: 64px;
+    background-color: #ccc;
+    border-radius: 64px;
+    position: relative;
+    outline: none;
+    cursor: pointer;
+    margin: 40px;
+}
+
+#onOff::before {
+    content: "";
+    position: absolute;
+    height: 52px;
+    width: 52px;
+    left: 6px;
+    top: 6px;
+    background-color: white;
+    border-radius: 50%;
+    transition: 0.3s;
+}
+
+#onOff:checked {
+    background-color: #4CAF50;
+}
+
+#onOff:checked::before {
+    transform: translateX(56px);
+}
+
+/* Bigger range slider */
+#bpm {
+    width: 90%;
+    max-width: 600px;
+    margin: 40px;
+    -webkit-appearance: none;
+    height: 20px;
+    background: #333;
+    border-radius: 10px;
+    outline: none;
+}
+
+/* Thumb style for webkit browsers (Chrome, Safari) */
+#bpm::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 40px;
+    height: 40px;
+    background: #0cf;
+    border-radius: 50%;
+    cursor: pointer;
+    border: none;
+    margin-top: -10px;
+}
+
+/* Thumb style for Firefox */
+#bpm::-moz-range-thumb {
+    width: 40px;
+    height: 40px;
+    background: #0cf;
+    border-radius: 50%;
+    cursor: pointer;
+    border: none;
+}
