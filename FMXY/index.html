@@ -2,6 +2,12 @@
 <html lang="en">
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Load the RNBO JavaScript library from the Cycling '74 CDN -->
+    <script src="https://cdn.cycling74.com/rnbo/1.3.4/rnbo.min.js"></script>
+
+    <!-- Load your custom JavaScript as a module -->
+    <script type="module" src="script.js"></script>
     <style>
         html, body {
             margin: 0;
@@ -24,60 +30,6 @@
 </head>
 <body>
     <svg id="xyInterface"></svg>
-    <script>
-        const svg = document.getElementById("xyInterface");
-        const circle = document.createElementNS("http://www.w3.org/2000/svg", "circle");
-        circle.setAttribute("r", 20);
-        circle.style.display = "none";
-        svg.appendChild(circle);
 
-        let isTouching = false;
-
-        function getNormalizedCoords(evt) {
-            const rect = svg.getBoundingClientRect();
-            const x = evt.clientX;
-            const y = evt.clientY;
-            const nx = x / rect.width;
-            const ny = y / rect.height;
-            return { x, y, nx, ny };
-        }
-
-        function updateCircle(x, y) {
-            circle.setAttribute("cx", x);
-            circle.setAttribute("cy", y);
-            circle.style.display = "block";
-        }
-
-        function handleStart(evt) {
-            evt.preventDefault();
-            isTouching = true;
-            const { x, y, nx, ny } = getNormalizedCoords(evt);
-            updateCircle(x, y);
-            console.log({ x: nx.toFixed(3), y: ny.toFixed(3), touched: true });
-        }
-
-        function handleMove(evt) {
-            if (!isTouching) return;
-            const { x, y, nx, ny } = getNormalizedCoords(evt);
-            updateCircle(x, y);
-            console.log({ x: nx.toFixed(3), y: ny.toFixed(3), touched: true });
-        }
-
-        function handleEnd(evt) {
-            isTouching = false;
-            circle.style.display = "none";
-            console.log({ touched: false });
-        }
-
-        svg.addEventListener("pointerdown", handleStart);
-        // svg.addEventListener("mousedown", handleStart);
-        // svg.addEventListener("touchstart", handleStart);
-        svg.addEventListener("pointermove", handleMove);
-        // svg.addEventListener("mousemove", handleMove);
-        // svg.addEventListener("touchmove", handleMove);
-        svg.addEventListener("pointerup", handleEnd);
-        // svg.addEventListener("mouseup", handleEnd);
-        // svg.addEventListener("touchend", handleEnd);
-    </script>
 </body>
 </html>
