@@ -23,6 +23,9 @@ function updateCircle(x, y) {
 }
 
 function handleStart(evt) {
+    if(context.state === 'suspended'){
+        context.resume()
+    }
     evt.preventDefault();
     isTouching = true;
     const { x, y, nx, ny } = getNormalizedCoords(evt);
@@ -73,9 +76,7 @@ const outputNode = context.createGain();
 // Connect the gain node to the device's audio output (speakers/headphones)
 outputNode.connect(context.destination);
 
-// Select the <button> element from the HTML document
-let onoffCtl = document.getElementById("onOff");
-let bpmCtl = document.getElementById("bpm");
+
 
 // Define an asynchronous setup function to initialize the RNBO device
 const setup = async () => {
