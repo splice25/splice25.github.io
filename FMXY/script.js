@@ -68,9 +68,9 @@ const setup = async () => {
         const { x, y, nx, ny } = getNormalizedCoords(evt);
         updateCircle(x, y);
         isTouching = true;
-        if(context.state === 'suspended'){
-            await context.resume()
-        }
+        // if(context.state === 'suspended'){
+        //     await context.resume()
+        // }
         evt.preventDefault();
 
         console.log("start~!");
@@ -79,7 +79,10 @@ const setup = async () => {
         rnboY.value = ny;
     });
 
-    svg.addEventListener("pointermove", (evt)=>{
+    svg.addEventListener("pointermove", async(evt)=>{
+        // if(context.state === 'suspended'){
+        //     await context.resume()
+        // }
         if (!isTouching) return;
         const { x, y, nx, ny } = getNormalizedCoords(evt);
         updateCircle(x, y);
@@ -88,45 +91,37 @@ const setup = async () => {
         rnboY.value = ny;
     });
 
-    svg.addEventListener("pointerup", (evt)=>{
+    svg.addEventListener("pointerup", async (evt)=>{
         isTouching = false;
+        // if(context.state === 'suspended'){
+        //     await context.resume()
+        // }
         circle.style.display = "none";
         // console.log({ touched: false });
         play.value = 0;
     });
 
 
-    // onoffCtl.addEventListener('input', async (event) => {
-    //     // Resume the AudioContext if it's not already running (required by browsers)
-    //     if (context.state === 'suspended') {
-    //         await context.resume();
-    //     }
-    //     if (event.target.checked){
-    //         // Set the "play" parameter to 1 (on)
-    //         play.value = 1;
-    //     } else {
-    //         // Set the "play" parameter to 0 (off)
-    //         play.value = 0;
-    //     }
-    //
-    //
-    // });
-    //
-    // bpmCtl.addEventListener('input', (event)=>{
-    //     bpm.value = parseFloat(event.target.value)
-    // })
-
-    // Add an event listener for when the button is released
-    // button.addEventListener('pointerup', () => {
-    //     // Set the "play" parameter to 0 (off)
-    //     play.value = 0;
-    //
-    //     // Log "off" to the console for debugging
-    //     console.log("off");
-    // });
-
-
 };
 
-// Call the setup function to start everything
-setup();
+const splash = document.getElementById("splash");
+
+
+if (context){
+    context.onstatechange = ()=>{
+        // console.log("AudioContext resumed.");
+        if (context.state === "running"){
+            splash.style.display = "none";
+        }
+
+        // now run your actual patch setup
+    }
+}
+splash.addEventListener("pointerdown",  () => {
+
+        context.resume();
+        splash.innerText = "Loading..."
+
+});
+
+setup()
