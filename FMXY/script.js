@@ -68,9 +68,7 @@ const setup = async () => {
         const { x, y, nx, ny } = getNormalizedCoords(evt);
         updateCircle(x, y);
         isTouching = true;
-        // if(context.state === 'suspended'){
-        //     await context.resume()
-        // }
+     
         evt.preventDefault();
 
         console.log("start~!");
@@ -80,9 +78,7 @@ const setup = async () => {
     });
 
     svg.addEventListener("pointermove", async(evt)=>{
-        // if(context.state === 'suspended'){
-        //     await context.resume()
-        // }
+
         if (!isTouching) return;
         const { x, y, nx, ny } = getNormalizedCoords(evt);
         updateCircle(x, y);
@@ -93,9 +89,7 @@ const setup = async () => {
 
     svg.addEventListener("pointerup", async (evt)=>{
         isTouching = false;
-        // if(context.state === 'suspended'){
-        //     await context.resume()
-        // }
+
         circle.style.display = "none";
         // console.log({ touched: false });
         play.value = 0;
