@@ -68,7 +68,7 @@ const setup = async () => {
         const { x, y, nx, ny } = getNormalizedCoords(evt);
         updateCircle(x, y);
         isTouching = true;
-     
+
         evt.preventDefault();
 
         console.log("start~!");
