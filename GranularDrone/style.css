@@ -1,0 +1,96 @@
+/* ========================
+   Fullscreen Layout Setup
+   ======================== */
+html, body {
+    margin: 0;                    /* Remove default margin */
+    padding: 0;                   /* Remove default padding */
+    height: 100%;                 /* Full height of the viewport */
+    width: 100%;                  /* Full width of the viewport */
+    overflow: hidden;             /* Prevent scrolling */
+    background-color: #111;       /* Set background to very dark gray */
+    font-family: sans-serif;      /* Use a clean, legible font */
+    display: flex;                /* Use Flexbox for layout */
+    flex-direction: column;       /* Stack elements vertically */
+    justify-content: center;      /* Center elements vertically */
+    align-items: center;          /* Center elements horizontally */
+    touch-action: none;           /* Prevent default touch actions */
+    color: pink;                  /* Set default text color */
+}
+
+/* ========================
+   Toggle Switch Styling
+   ======================== */
+#onOff {
+    appearance: none;             /* Remove default checkbox style */
+    width: 120px;                 /* Width of the toggle track */
+    height: 64px;                 /* Height of the toggle track */
+    background-color: #ccc;       /* Light gray background when off */
+    border-radius: 64px;          /* Fully rounded ends */
+    position: relative;           /* Required for positioning the knob */
+    outline: none;                /* Remove focus outline */
+    cursor: pointer;              /* Pointer cursor on hover */
+    margin: 40px;                 /* Space around the toggle */
+}
+
+/* Toggle knob (pseudo-element) */
+#onOff::before {
+    content: "";                  /* Empty content for pseudo-element */
+    position: absolute;           /* Position within parent */
+    height: 52px;                 /* Height of the knob */
+    width: 52px;                  /* Width of the knob */
+    left: 6px;                    /* Start position inside the track */
+    top: 6px;                     /* Vertically centered */
+    background-color: white;      /* Knob color */
+    border-radius: 50%;           /* Make knob circular */
+    transition: 0.3s;             /* Smooth transition on toggle */
+}
+
+/* Toggle track and knob styling when checked/on */
+#onOff:checked {
+    background-color: #4CAF50;    /* Green background when on */
+}
+
+#onOff:checked::before {
+    transform: translateX(56px);  /* Slide knob to the right */
+}
+
+/* ========================
+   Range Slider Styling
+   ======================== */
+#granCrazy {
+    width: 100vw;                 /* Full viewport width */
+    height: 40px;                 /* Thicker slider track */
+    margin: 20px 0;               /* Vertical spacing */
+    -webkit-appearance: none;     /* Remove default style (WebKit) */
+    appearance: none;             /* Remove default style (general) */
+    background: #333;             /* Dark track color */
+    border-radius: 20px;          /* Rounded track edges */
+    outline: none;                /* Remove focus ring */
+}
+
+/* ===============
+   Slider Thumbs
+   =============== */
+
+/* WebKit browsers (Chrome, Safari) */
+#granCrazy::-webkit-slider-thumb {
+    -webkit-appearance: none;     /* Remove default thumb style */
+    appearance: none;             /* Remove default thumb style */
+    width: 40px;                  /* Width of the thumb */
+    height: 40px;                 /* Height of the thumb */
+    background: #f06;             /* Bright pink/rose thumb color */
+    border-radius: 50%;           /* Make the thumb circular */
+    cursor: pointer;              /* Pointer cursor on hover */
+    border: none;                 /* Remove default border */
+    margin-top: -10px;            /* Center thumb vertically */
+}
+
+/* Firefox */
+#granCrazy::-moz-range-thumb {
+    width: 40px;                  /* Same as WebKit */
+    height: 40px;
+    background: #f06;
+    border-radius: 50%;
+    cursor: pointer;
+    border: none;
+}
